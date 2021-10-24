@@ -89,6 +89,22 @@ build-hashicorp:
 		-f hashicorp/Dockerfile .
 
 ########################
+## Kics
+########################
+KICS_BUILD_NAME := kics
+KICS_VERSION := 1.4.5
+KICS_BUILD_TAG := 1.4.5alpine3.14.2
+
+.PHONY: build-kics
+build-kics:
+	docker build --no-cache \
+		--build-arg IMAGE=${BUILD_FROM} \
+		--build-arg KICS_VERSION=${KICS_VERSION} \
+		-t ${KICS_BUILD_NAME}:${KICS_BUILD_TAG} \
+		-f kics/Dockerfile .
+
+
+########################
 ## Kubectl
 ########################
 KUBECTL_BUILD_NAME := kubectl
