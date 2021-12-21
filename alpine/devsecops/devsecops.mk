@@ -8,7 +8,7 @@ BUILD_FROM := builder:alpine3.14.2
 ## All
 ##############################
 .PHONY: all
-all: build-bats build-google-cloud build-hadolint build-hashicorp build-kubectl build-shellcheck build-terraform-docs
+all: build-bats build-cookiecutter build-google-cloud build-hadolint build-hashicorp build-kubectl build-shellcheck build-terraform-docs
 
 ########################
 ## Bats
@@ -30,6 +30,25 @@ build-bats:
 		--build-arg BATS_MOCK_VERSION=${BATS_MOCK_VERSION} \
 		-t ${BATS_BUILD_NAME}:${BATS_BUILD_TAG} \
 		-f bats/Dockerfile .
+
+
+########################
+## Cookiecutter
+########################
+COOKIECUTTER_BUILD_FROM := python:3.9.5alpine3.14.2
+COOKIECUTTER_VERSION := 1.7.3
+COOKIECUTTER_BUILD_NAME := cookiecutter
+COOKIECUTTER_BUILD_TAG := 1.7.3alpine3.14.2
+
+.PHONY: build-cookiecutter
+build-cookiecutter:
+	docker build --no-cache \
+		--build-arg IMAGE=${COOKIECUTTER_BUILD_FROM} \
+		--build-arg COOKIECUTTER_VERSION=${COOKIECUTTER_VERSION} \
+		-t ${COOKIECUTTER_BUILD_NAME}:${COOKIECUTTER_BUILD_TAG} \
+		-f cookiecutter/Dockerfile .
+
+
 
 ########################
 ## Google Cloud
@@ -70,7 +89,7 @@ TERRAFORM_V12 := 0.12.31
 TERRAFORM_V13 := 0.13.7
 TERRAFORM_V14 := 0.14.11
 TERRAFORM_V15 := 0.15.5
-TERRAFORM_V1	:= 1.0.5
+TERRAFORM_V1	:= 1.1.0
 PACKER_VERSION := 1.7.4
 VAULT_VERSION := 1.8.2
 
