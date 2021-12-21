@@ -2,9 +2,10 @@
 ## Globals
 ########################
 DOCKER_IMAGE_REPOSITORY :=
+BUILD_FROM := builder:alpine3.14.2
 
 ##############################
-## All - Guess what this does
+## All - Builds All
 ##############################
 .PHONY: all
 all: build-golang build-python build-ruby
@@ -26,14 +27,17 @@ build-golang:
 ########################
 ## Python
 ########################
-PYTHON_BUILD_FROM := python:3.9.7-alpine3.14
 PYTHON_BUILD_NAME := python
-PYTHON_BUILD_TAG := 3.9.7alpine3.14.2
+PYTHON_VERSION := 3.9.5-r2
+PIP_VERSION := 20.3.4-r1
+PYTHON_BUILD_TAG := 3.9.5alpine3.14.2
 
 .PHONY: build-python
 build-python:
 	docker build --no-cache \
-		--build-arg IMAGE=${PYTHON_BUILD_FROM} \
+		--build-arg IMAGE=${BUILD_FROM} \
+		--build-arg PYTHON_VERSION=${PYTHON_VERSION} \
+		--build-arg PIP_VERSION=${PIP_VERSION} \
 		-t ${PYTHON_BUILD_NAME}:${PYTHON_BUILD_TAG} \
 		-f python/Dockerfile .
 
