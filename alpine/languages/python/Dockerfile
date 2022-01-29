@@ -11,7 +11,13 @@ apk add --no-cache \
 python3=${PYTHON_VERSION} \
 py3-pip=${PIP_VERSION}
 
-RUN python3 --version && \
-    pip3 --version
+RUN cd /usr/bin \
+	&& ln -s idle3 idle \
+	&& ln -s pydoc3 pydoc \
+	&& ln -s python3 python \
+	&& ln -s python3-config python-config
 
-CMD ["python3"]
+RUN python --version && \
+    pip --version
+
+CMD ["python"]
